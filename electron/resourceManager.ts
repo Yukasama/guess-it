@@ -1,6 +1,6 @@
-import osUtils from "os-utils";
-import fs from "fs";
-import os from "os";
+import osUtils from 'os-utils';
+import fs from 'fs';
+import os from 'os';
 
 const POLL_INTERVAL = 500;
 
@@ -35,7 +35,7 @@ const getRamUsage = () => {
 };
 
 const getStorageData = () => {
-  const stats = fs.statfsSync(process.platform === "win32" ? "C://" : "/");
+  const stats = fs.statfsSync(process.platform === 'win32' ? 'C://' : '/');
   const total = stats.bsize * stats.blocks;
   const free = stats.bsize * stats.bfree;
 

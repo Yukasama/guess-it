@@ -1,7 +1,7 @@
 {
   "appId": "com.yukasama.guess-it",
   "files": ["dist-electron", "dist-react"],
-  "icon": "./logo.png",
+  "icon": "./public/logo.png",
   "mac": {
     "target": "dmg"
   },

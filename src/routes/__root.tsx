@@ -1,5 +1,6 @@
-import { Link, Outlet, createRootRoute } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { Themer } from '@/components/ui/themer';
+import { Link, Outlet, createRootRoute } from '@tanstack/react-router';
+import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -16,17 +17,7 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <>
-      <div className="p-2 flex gap-2 text-lg">
-        <Link
-          to="/"
-          activeProps={{
-            className: "font-bold",
-          }}
-          activeOptions={{ exact: true }}>
-          Home
-        </Link>
-      </div>
-      <hr />
+      <Themer />
       <Outlet />
       <TanStackRouterDevtools position="bottom-right" />
     </>
