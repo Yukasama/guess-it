@@ -12,18 +12,12 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as ContinentsIndexImport } from './routes/continents.index'
 import { Route as ContinentsContinentImport } from './routes/continents.$continent'
 
 // Create/Update Routes
 
 const IndexRoute = IndexImport.update({
   path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ContinentsIndexRoute = ContinentsIndexImport.update({
-  path: '/continents/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -50,13 +44,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContinentsContinentImport
       parentRoute: typeof rootRoute
     }
-    '/continents/': {
-      id: '/continents/'
-      path: '/continents'
-      fullPath: '/continents'
-      preLoaderRoute: typeof ContinentsIndexImport
-      parentRoute: typeof rootRoute
-    }
   }
 }
 
@@ -65,41 +52,36 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/continents/$continent': typeof ContinentsContinentRoute
-  '/continents': typeof ContinentsIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/continents/$continent': typeof ContinentsContinentRoute
-  '/continents': typeof ContinentsIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/continents/$continent': typeof ContinentsContinentRoute
-  '/continents/': typeof ContinentsIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/continents/$continent' | '/continents'
+  fullPaths: '/' | '/continents/$continent'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/continents/$continent' | '/continents'
-  id: '__root__' | '/' | '/continents/$continent' | '/continents/'
+  to: '/' | '/continents/$continent'
+  id: '__root__' | '/' | '/continents/$continent'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContinentsContinentRoute: typeof ContinentsContinentRoute
-  ContinentsIndexRoute: typeof ContinentsIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContinentsContinentRoute: ContinentsContinentRoute,
-  ContinentsIndexRoute: ContinentsIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -115,8 +97,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/continents/$continent",
-        "/continents/"
+        "/continents/$continent"
       ]
     },
     "/": {
@@ -124,9 +105,6 @@ export const routeTree = rootRoute
     },
     "/continents/$continent": {
       "filePath": "continents.$continent.tsx"
-    },
-    "/continents/": {
-      "filePath": "continents.index.tsx"
     }
   }
 }
