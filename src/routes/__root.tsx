@@ -17,7 +17,11 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <>
-      <Themer />
+      <div className="w-full h-16 border-b">
+        <h2 className="font-medium">Guess it!</h2>
+        <Themer />
+      </div>
+
       <Outlet />
       <TanStackRouterDevtools position="bottom-right" />
     </>
