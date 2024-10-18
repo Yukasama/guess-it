@@ -12,12 +12,12 @@ export const Route = createFileRoute('/')({
 
 function HomePage() {
   const continents = [
-    { title: 'Europe', slug: 'europe', src: europeImage },
     { title: 'North America', slug: 'north-america', src: northAmericaImage },
+    { title: 'Europe', slug: 'europe', src: europeImage },
+    { title: 'Africa', slug: 'africa', src: africaImage },
     { title: 'South America', slug: 'south-america', src: southAmericaImage },
     { title: 'Asia', slug: 'asia', src: asiaImage },
     { title: 'Oceania', slug: 'oceania', src: oceaniaImage },
-    { title: 'Africa', slug: 'africa', src: africaImage },
   ];
 
   return (

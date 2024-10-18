@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { SunIcon, MoonIcon } from '@radix-ui/react-icons';
+import { DropdownMenuItem, DropdownMenuShortcut } from './ui/dropdown-menu';
 
 export const Themer = () => {
   const [darkMode, setDarkMode] = useState<boolean>(
@@ -17,11 +18,11 @@ export const Themer = () => {
   }, [darkMode]);
 
   return (
-    <button
-      onClick={() => setDarkMode(!darkMode)}
-      className="px-4 py-2 rounded bg-blue-500 text-white"
-    >
-      {darkMode ? <SunIcon className="mr-2" /> : <MoonIcon className="mr-2" />}
-    </button>
+    <DropdownMenuItem onClick={() => setDarkMode(!darkMode)}>
+      Change Theme
+      <DropdownMenuShortcut>
+        {darkMode ? <SunIcon /> : <MoonIcon />}
+      </DropdownMenuShortcut>
+    </DropdownMenuItem>
   );
 };

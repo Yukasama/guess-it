@@ -1,14 +1,13 @@
 import { ImageWithFallback } from '@/components/image';
+import { getCountriesByContinent } from '@/features/country/lib/get-countries-by-continent';
 import { createFileRoute } from '@tanstack/react-router';
 
-// Route Setup
 export const Route = createFileRoute('/continents/$continent')({
   loader: ({ params: { continent } }) => getCountriesByContinent(continent),
   notFoundComponent: NotFoundPage,
   component: ContinentPage,
 });
 
-// NotFound Page Component
 function NotFoundPage() {
   return (
     <div>
@@ -17,7 +16,6 @@ function NotFoundPage() {
   );
 }
 
-// Header Component to Display the Category Titles
 function CategoryHeader() {
   const categories = [
     'Google Car',
@@ -27,11 +25,11 @@ function CategoryHeader() {
     'Mile Marker',
   ];
   return (
-    <div className="grid grid-cols-5 gap-2 flex items-center">
+    <div className="grid grid-cols-5 gap-2 items-center">
       {categories.map((category) => (
         <p
           key={category}
-          className="font-medium p-0.5 px-2.5 bg-gray-800 text-center mx-auto rounded-full"
+          className="font-medium p-0.5 px-2.5 bg-gray-100 dark:bg-gray-800 text-center mx-auto rounded-full"
         >
           {category}
         </p>
@@ -40,8 +38,7 @@ function CategoryHeader() {
   );
 }
 
-// Country Images Component
-function CountryImages({ country }: { country: string }) {
+function CountryImages({ country }: Readonly<{ country: string }>) {
   const imageTypes = [
     'google-car',
     'license-plate',
@@ -64,7 +61,6 @@ function CountryImages({ country }: { country: string }) {
   );
 }
 
-// Main Page Component
 function ContinentPage() {
   const countries = Route.useLoaderData();
 
@@ -74,37 +70,28 @@ function ContinentPage() {
       <div className="space-y-3">
         {countries.map((country) => (
           <div key={country} className="space-y-1.5">
-            <h2 className="text-xl font-bold">
-              {country[0].toUpperCase() + country.slice(1)}
-            </h2>
+            <div className="flex gap-2 items-center">
+              <h2 className="text-xl font-bold">
+                {country[0].toUpperCase() + country.slice(1)}
+              </h2>
+              <img
+                src="https://flagsapi.com/AR/shiny/32.png"
+                alt="Argentina Flag"
+              />
+              <img
+                src="/driving-side.svg"
+                alt="Driving Side"
+                className="size-7"
+              />
+              <div className="bg-green-500 text-white px-2 text-sm rounded-md flex items-center">
+                Right
+              </div>
+              <p className="font-medium">.ar</p>
+            </div>
             <CountryImages country={country} />
           </div>
         ))}
       </div>
     </div>
   );
-}
-
-// Function to Get Countries by Continent
-function getCountriesByContinent(continent: string) {
-  const continentCountries: Record<string, string[]> = {
-    europe: ['France', 'Germany', 'Spain', 'Italy', 'Netherlands'],
-    asia: ['China', 'India', 'Japan', 'South Korea', 'Thailand'],
-    africa: ['Nigeria', 'Egypt', 'South Africa', 'Kenya', 'Morocco'],
-    'north-america': ['USA', 'Canada', 'Mexico', 'Cuba', 'Jamaica'],
-    'south-america': [
-      'argentina',
-      'bolivia',
-      'brazil',
-      'chile',
-      'colombia',
-      'curacao',
-      'ecuador',
-      'peru',
-      'uruguay',
-    ],
-    oceania: ['Australia', 'New Zealand', 'Fiji', 'Samoa', 'Papua New Guinea'],
-  };
-
-  return continentCountries[continent] || [];
 }
