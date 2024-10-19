@@ -24,6 +24,7 @@ function CategoryHeader() {
     'Pole',
     'Mile Marker',
   ];
+
   return (
     <div className="grid grid-cols-5 gap-2 items-center">
       {categories.map((category) => (
@@ -65,32 +66,49 @@ function ContinentPage() {
   const countries = Route.useLoaderData();
 
   return (
-    <div className="m-10 space-y-3">
-      <CategoryHeader />
-      <div className="space-y-3">
-        {countries.map((country) => (
-          <div key={country} className="space-y-1.5">
-            <div className="flex gap-2 items-center">
-              <h2 className="text-xl font-bold">
-                {country[0].toUpperCase() + country.slice(1)}
-              </h2>
-              <img
-                src="https://flagsapi.com/AR/shiny/32.png"
-                alt="Argentina Flag"
-              />
-              <img
-                src="/driving-side.svg"
-                alt="Driving Side"
-                className="size-7"
-              />
-              <div className="bg-green-500 text-white px-2 text-sm rounded-md flex items-center">
-                Right
-              </div>
-              <p className="font-medium">.ar</p>
-            </div>
-            <CountryImages country={country} />
-          </div>
-        ))}
+    <div className="m-10">
+      <div className="overflow-y-auto">
+        <table className="min-w-full table-fixed border-collapse">
+          <thead>
+            <tr>
+              <th className="sticky left-0 p-2 bg-white z-10">Country</th>
+              <th className="p-2">
+                <CategoryHeader />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {countries.map((country) => (
+              <tr key={country} className="border-b">
+                <td className="sticky left-0 bg-white z-10 p-2 flex flex-col items-center gap-1">
+                  <img
+                    src="https://flagsapi.com/AR/shiny/32.png"
+                    alt={`${country} Flag`}
+                  />
+                  <span className="font-bold">
+                    {(country[0].toUpperCase() + country.slice(1)).replace(
+                      '-',
+                      ' ',
+                    )}
+                  </span>
+                  <img
+                    src="/driving-side.svg"
+                    alt="Driving Side"
+                    className="size-9"
+                  />
+                  <div className="bg-gray-800 border-gray-700/50 rounded-md px-2">
+                    .ar
+                  </div>
+                </td>
+                <td className="p-2">
+                  <div className="overflow-x-auto">
+                    <CountryImages country={country} />
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
