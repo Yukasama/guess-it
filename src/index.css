@@ -62,18 +62,12 @@
   * {
     @apply border-border;
   }
+  html,
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-hidden;
   }
 }
 
 ::-webkit-scrollbar {
   width: 4px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: darkgray;
-  border-radius: 2px;
-}
-::-webkit-scrollbar-track {
-  background-color: lightgray;
 }

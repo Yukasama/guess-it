@@ -1,6 +1,8 @@
 import { ImageWithFallback } from '@/components/image';
 import { getCountriesByContinent } from '@/features/country/lib/get-countries-by-continent';
+import { countryCodes } from '@/features/country/lib/get-country-code';
 import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/continents/$continent')({
   loader: ({ params: { continent } }) => getCountriesByContinent(continent),
@@ -16,95 +18,137 @@ function NotFoundPage() {
   );
 }
 
-function CategoryHeader() {
-  const categories = [
-    'Google Car',
-    'License Plate',
-    'Landscape',
-    'Pole',
-    'Mile Marker',
-  ];
-
-  return (
-    <div className="grid grid-cols-5 gap-2 items-center">
-      {categories.map((category) => (
-        <p
-          key={category}
-          className="font-medium p-0.5 px-2.5 bg-gray-100 dark:bg-gray-800 text-center mx-auto rounded-full"
-        >
-          {category}
-        </p>
-      ))}
-    </div>
-  );
-}
-
-function CountryImages({ country }: Readonly<{ country: string }>) {
-  const imageTypes = [
-    'google-car',
-    'license-plate',
-    'landscape',
-    'pole',
-    'mile-marker',
-  ];
+function CountryImages({
+  country,
+  visibleCategories,
+}: {
+  country: string;
+  visibleCategories: string[];
+}) {
+  const imageTypes = {
+    'Google Car': 'google-car',
+    'License Plate': 'license-plate',
+    Landscape: 'landscape',
+    Pole: 'pole',
+    'Mile Marker': 'mile-marker',
+    'Sign Post': 'sign-post',
+  };
 
   return (
     <div className="grid grid-cols-5 gap-2">
-      {imageTypes.map((type) => (
-        <div key={type} className="flex flex-col items-center gap-1.5">
+      {visibleCategories.map((category, index) => (
+        <div key={index} className="flex flex-col items-center">
           <ImageWithFallback
-            src={`/countries/${country}/${type}.png`}
-            alt={`${country}-${type}`}
+            src={`/countries/${country}/${imageTypes[category]}.png`}
+            alt={`${country}-${category}`}
           />
         </div>
       ))}
     </div>
   );
 }
-
 function ContinentPage() {
   const countries = Route.useLoaderData();
 
+  const categories = [
+    'Google Car',
+    'License Plate',
+    'Landscape',
+    'Pole',
+    'Mile Marker',
+    'Sign Post',
+  ];
+
+  const imageTypes = {
+    'Google Car': 'google-car',
+    'License Plate': 'license-plate',
+    Landscape: 'landscape',
+    Pole: 'pole',
+    'Mile Marker': 'mile-marker',
+    'Sign Post': 'sign-post',
+  };
+
+  const [startIndex, setStartIndex] = useState(0);
+  const visibleCategoriesCount = 5;
+
+  const handlePrev = () => {
+    setStartIndex((prev) => Math.max(prev - 1, 0));
+  };
+
+  const handleNext = () => {
+    setStartIndex((prev) =>
+      Math.min(prev + 1, categories.length - visibleCategoriesCount),
+    );
+  };
+
+  const currentVisibleCategories = categories.slice(
+    startIndex,
+    startIndex + visibleCategoriesCount,
+  );
+
   return (
-    <div className="m-10">
-      <div className="overflow-y-auto">
-        <table className="min-w-full table-fixed border-collapse">
+    <div className="m-10 h-full">
+      <div className="overflow-y-auto h-[100vh]">
+        <table className="min-w-full overflow-auto">
           <thead>
             <tr>
-              <th className="sticky left-0 p-2 bg-white z-10">Country</th>
-              <th className="p-2">
-                <CategoryHeader />
+              <th>
+                <button
+                  onClick={handlePrev}
+                  className="text-gray-500 hover:text-white bg-gray-700 p-2 rounded"
+                  disabled={startIndex === 0}
+                >
+                  &larr;
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="text-gray-500 hover:text-white bg-gray-700 p-2 rounded"
+                  disabled={
+                    startIndex >= categories.length - visibleCategoriesCount
+                  }
+                >
+                  &rarr;
+                </button>
               </th>
+              {currentVisibleCategories.map((category) => (
+                <th
+                  key={category}
+                  className="font-medium text-sm text-gray-400 dark:text-gray-500 text-start underline underline-offset-4"
+                >
+                  {category}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
             {countries.map((country) => (
-              <tr key={country} className="border-b">
-                <td className="sticky left-0 bg-white z-10 p-2 flex flex-col items-center gap-1">
-                  <img
-                    src="https://flagsapi.com/AR/shiny/32.png"
-                    alt={`${country} Flag`}
-                  />
-                  <span className="font-bold">
-                    {(country[0].toUpperCase() + country.slice(1)).replace(
-                      '-',
-                      ' ',
-                    )}
-                  </span>
-                  <img
-                    src="/driving-side.svg"
-                    alt="Driving Side"
-                    className="size-9"
-                  />
-                  <div className="bg-gray-800 border-gray-700/50 rounded-md px-2">
-                    .ar
+              <tr key={country}>
+                <td>
+                  <div className="flex flex-col items-center justify-center gap-1">
+                    <img
+                      src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${countryCodes[country]}.svg`}
+                      alt={`${country} Flag`}
+                      className="h-8 rounded-md"
+                    />
+                    <span className="font-bold">
+                      {(country[0].toUpperCase() + country.slice(1)).replace(
+                        '-',
+                        ' ',
+                      )}
+                    </span>
+                    <div className="bg-violet-500 border-violet-400 border rounded-full text-sm font-semibold text-white px-2">
+                      .{countryCodes[country]?.toLocaleLowerCase()}
+                    </div>
                   </div>
                 </td>
-                <td className="p-2">
-                  <div className="overflow-x-auto">
-                    <CountryImages country={country} />
-                  </div>
-                </td>
+                {currentVisibleCategories.map((category) => (
+                  <td key={category} className="p-2">
+                    <ImageWithFallback
+                      src={`/countries/${country}/${imageTypes[category]}.png`}
+                      alt={`${country}-${category}`}
+                    />
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>

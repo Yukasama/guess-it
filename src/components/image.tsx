@@ -15,7 +15,7 @@ export const ImageWithFallback = ({
   };
 
   return (
-    <div className="flex flex-col items-center gap-1 h-32 w-full">
+    <div className="flex flex-col items-center gap-1 h-[120px] w-full">
       {!imgError ? (
         <img src={src} alt={alt} onError={handleError} className="rounded-md" />
       ) : (

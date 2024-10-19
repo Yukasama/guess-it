@@ -52,7 +52,7 @@ export const getCountriesByContinent = (continent: string) => {
       'brazil',
       'chile',
       'colombia',
-      'curacao',
+      'curaçao',
       'ecuador',
       'peru',
       'uruguay',
