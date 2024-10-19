@@ -1,5 +1,6 @@
 import { TriangleAlert } from 'lucide-react';
 import { useState } from 'react';
+import { Card } from './ui/card';
 
 export const ImageWithFallback = ({
   src,
@@ -15,14 +16,14 @@ export const ImageWithFallback = ({
   };
 
   return (
-    <div className="flex flex-col items-center gap-1 h-[120px] w-full">
+    <div className="min-h-[120px] min-w-[200px]">
       {!imgError ? (
         <img src={src} alt={alt} onError={handleError} className="rounded-md" />
       ) : (
-        <div className="w-full h-full bg-gray-200 dark:bg-gray-900 text-gray-400 flex items-center justify-center gap-1 flex-col rounded-md">
+        <Card className="bg-accent text-gray-400 flex items-center justify-center min-h-[120px] gap-1 flex-col rounded-md">
           <TriangleAlert className="size-4" />
           <p className="text-sm">No Image found.</p>
-        </div>
+        </Card>
       )}
     </div>
   );
